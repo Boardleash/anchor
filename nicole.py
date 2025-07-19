@@ -10,20 +10,29 @@
 ### DESCRIPTION ###
 ###################
 #
-# This is a speech-to-text program in Python that will \
+# This is a speech program in Python that will \
 # take certain voice commands and run appropriate actions \
 # based on those commands.
+# Required installs:
+#   --> pip install keyboard
+#   --> pip install pyttsx3 
+#   --> pip install SpeechRecognition
+
 
 # Import needed libraries.
+import keyboard
 import os
-#import pyttsx3
-import speech_recognition as sr
+import pyttsx3
+import speech_recognition
 
 # Initialize SpeechRecognition and PyTTSx3.
-listener = sr.Recognizer()
+listener = speech_recognition.Recognizer()
 #speaker = pyttsx3.init()
 
-# Configure PyTTSx3 settings.
+########################
+### PYTTSX3 SETTINGS ###
+########################
+
 #speech_rate = speaker.setProperty('rate', 115)
 #speech_volume = speaker.setProperty('volume', 0.75)
 #speech_language = speaker.getProperty('voices')
@@ -31,97 +40,130 @@ listener = sr.Recognizer()
 #speaker.say("Good afternoon Derek!")
 #speaker.runAndWait()
 
-##########################
-### MUSIC PLAYER CLASS ###
-##########################
+###################################
+### SPEECH RECOGNITION SETTINGS ###
+###################################
 
-# Create class for controlling Strawberry music player. 
-class Music:
-    def playMusic(self):
-        '''Opens the Strawberry music player and starts playing music.'''
-        return os.system('strawberry --quiet -p &')
+# Speech Recognition Dynamic Ambient Noise Setting (True or False)
+#listener.dynamic_energy_threshold = True
+# Speech Recognition Dynamic Ambient Noise Adjustment (Shouldn't need to modify)
+#listener.dynamic_energy_adjustment_damping = 0.15
+# Speech Recognition Minimum Length of Silence (seconds) \
+# Smaller values = faster recognition, but will cut off slower speech
+#listener.pause_threshold = 0.8
+# Speech Recognition API Methods
+# listener.recognize_google
+# listener.recognize_google_cloud
+# listener.recognize_wit
+# listener.recognize_bing
+# listener.recognize_houndify
+# listener.recognize_ibm
+# listener.recognize_vosk (works offline)
+# listener.recognize_whisper (works offline)
+# listener.recognize_faster_whisper
+# listener.recognize_openai
+# listener.recognize_groq
 
-    def stopMusic(self):
-        '''Stops music from playing on Strawberry music player.'''
-        return os.system('strawberry --quiet -s &')
+##############################
+### MUSIC PLAYER FUNCTIONS ###
+##############################
 
-    def volumeUp(self):
-        '''Turn volume up on the Strawberry music player.'''
-        return os.system('strawberry --quiet --volume-up &')
+def playMusic():
+    '''Opens the Strawberry music player and starts playing music.'''
+    os.system('strawberry --quiet -p &')
 
-    def volumeDown(self):
-        '''Turn volume down on the Strawberry music player.'''
-        return os.system('strawberry --quiet --volume-down &')
+def stopMusic():
+    '''Stops music from playing on Strawberry music player.'''
+    os.system('strawberry --quiet -s &')
 
-# Initialize the Music class.
-music = Music()
+def volumeUp():
+    '''Turn volume up on the Strawberry music player.'''
+    os.system('strawberry --quiet --volume-up &')
 
-#####################
-### WEATHER CLASS ###
-#####################
+def volumeDown():
+    '''Turn volume down on the Strawberry music player.'''
+    os.system('strawberry --quiet --volume-down &')
 
-# Create class for getting relevant weather information for the day.
-class Weather:
-    def currentWeather(self):
-        '''Get basic current weather information.'''
-        ### NEED TO STILL WORK ON THIS ###
-        return os.system('curl wttr.in/?format="%l+%t"')
+#########################
+### WEATHER FUNCTIONS ###
+#########################
 
-    def forecastWeather(self):
-        '''Get the weather forecast in a PNG image and have it open up for presentation.'''
-        os.system('wget wttr.in/Mooresville.png')
-        os.system('xdg-open ./Mooresville.png')
+def currentWeather():
+    '''Get basic current weather information.'''
+    ### NEED TO STILL WORK ON THIS ###
+    os.system('curl wttr.in/?format="%l+%t"')
 
-# Initialize the Weather class.
-weather = Weather()
+def forecastWeather():
+    '''Get the weather forecast in a PNG image and have it open up for presentation.'''
+    os.system('wget wttr.in/Mooresville.png')
+    os.system('xdg-open ./Mooresville.png')
+
+##############################
+### DESKTOP SETUP FUNCTION ###
+##############################
+
+### NEEDS WORKED ON ###
+def setupDesktop():
+    '''Open typical applications that I use'''
+    keyboard.press_and_release('ctrl+shift+n')
+    keyboard.write('brave-browser')
+    keyboard.press_and_release('enter')
 
 ####################
 ### MAIN PROGRAM ###
 ####################
 
+unsure = "I do not understand."
 listening = True
 while listening:
     # Configure a microphone to be used as a source.
-    with sr.Microphone() as source:
-        print("Hello!  What can I do for you?")
+    with speech_recognition.Microphone() as source:
         # At this point, speak into the microphone.
         # Store what is spoken into a variable.
         received_audio = listener.listen(source)
+        # Use Google to transcribe the received audio.
         transcribed_audio = listener.recognize_google(received_audio)
+        # The below print call is a check to verify it got the right message.
         print("Text: "+listener.recognize_google(received_audio))
-        if transcribed_audio == 'play music':
+        # Conditional statements based on key phrases.
+        if transcribed_audio == 'Nicole play music':
             try:
-                music.playMusic() 
+                playMusic() 
             except:
-                print("I did not understand.")
-        elif transcribed_audio == 'stop music':
+                print(unsure)
+        elif transcribed_audio == 'Nicole stop music':
             try:
-                music.stopMusic()
+                stopMusic()
             except:
-                print("I did not understand.")
-        elif transcribed_audio == 'music volume up':
+                print(unsure)
+        elif transcribed_audio == 'Nicole volume up':
             try:
-                music.volumeUp()
+                volumeUp()
             except:
-                print("I did not understand.")
-        elif transcribed_audio == 'music volume down':
+                print(unsure)
+        elif transcribed_audio == 'Nicole volume down':
             try:
-                music.volumeDown()
+                volumeDown()
             except:
-                print("I did not understand.")
+                print(unsure)
 
-        elif transcribed_audio == 'current weather':
+        elif transcribed_audio == 'Nicole current weather':
             try:
-                weather.currentWeather()
+                currentWeather()
             except:
-                print("I did not understand.")
-        elif transcribed_audio == 'forecast':
+                print(unsure)
+        elif transcribed_audio == 'Nicole forecast':
             try:
-                weather.forecastWeather()
+                forecastWeather()
             except:
-                print("I did not understand.")
+                print(unsure)
+        elif transcribed_audio == 'Nicole set up':
+            try:
+                setupDesktop()
+            except:
+                print(unsure)
         else:
-            print("I do not understand.")
+            print(unsure)
             listening = False
 
 # EOF
