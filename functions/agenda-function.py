@@ -40,5 +40,7 @@ def Agenda():
         else:
           misunderstanding()
 
+# EOF
+
 # Want to add ability to add or delete items to the agenda file
 # That's on the 'todo'list
