@@ -29,14 +29,15 @@
 #   --> "play" on a Linux host 
 
 # Import needed libraries
+import os
 import pyttsx3
 import speech_recognition
 
 # Import locally created, but external functions
-import ./functions/agenda-function.py as agenda
-import ./functions/desktop-function.py as desktop
-import ./functions/music-function.py as music
-import ./functions/weather-function.py as weather
+#import agenda
+#import desktop
+import music
+#import weather
 
 # Initialize SpeechRecognition and PyTTSx3.
 listener = speech_recognition.Recognizer()
@@ -96,6 +97,13 @@ while listening:
     rcvd_audio = listener.recognize_google(audio)
     print("TEXT: "+listener.recognize_google(audio))
     if rcvd_audio == 'siren':
+        try:
+            music.Music() 
+        except speech_recognition.UnknownValueError:
+            Misunderstanding()
+    else:
+        Misunderstanding()
+        listening = False
 
 # EOF
 
