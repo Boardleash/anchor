@@ -15,6 +15,7 @@
 # based on those commands.
 # Required installs:
 #   --> pip install keyboard
+#   --> pip install pyaudio
 #   --> pip install pyttsx3 
 #   --> pip install SpeechRecognition
 #   --> "play" on a Linux system
@@ -71,21 +72,21 @@ listener = speech_recognition.Recognizer()
 ##############################
 
 def playMusic():
-    '''Opens the Strawberry music player and starts playing music.'''
-    os.system('gtts-cli "Playing music now..." | play -t mp3 -')
+    '''Opens the strawberry music player and starts playing music.'''
+    os.system('gtts-cli "playing music now..." | play -t mp3 -')
     os.system('strawberry --quiet -p &')
 
 def stopMusic():
-    '''Stops music from playing on Strawberry music player.'''
-    os.system('gtts-cli "Stopping music now..." | play -t mp3 -')
+    '''Stops music from playing on strawberry music player.'''
+    os.system('gtts-cli "stopping music now..." | play -t mp3 -')
     os.system('strawberry --quiet -s &')
 
 def volumeUp():
-    '''Turn volume up on the Strawberry music player.'''
+    '''Turn volume up on the strawberry music player.'''
     os.system('strawberry --quiet --volume-up &')
 
 def volumeDown():
-    '''Turn volume down on the Strawberry music player.'''
+    '''Turn volume down on the strawberry music player.'''
     os.system('strawberry --quiet --volume-down &')
 
 #########################
@@ -207,6 +208,8 @@ while listening:
 #
 # Interface with calendars
 # Have the program create an agenda file based on waht the user tells it to create
+# Noticed that when running on Windows, there is no microphone mixer output on the terminal;
+# this is not the case for Linux.  Why?
 
 #flatpak run org.strawberrymusicplayer.strawberry &
 #strawberry -p &
