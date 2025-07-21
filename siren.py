@@ -97,6 +97,7 @@ def currentWeather():
     ### NEED TO STILL WORK ON THIS ###
     os.system('curl wttr.in/?format="%l+%t" > weather')
     os.system('gtts-cli -f weather')
+    os.system('rm weather')
 
 def forecastWeather():
     '''Get the weather forecast in a PNG image and have it open up for presentation.'''
@@ -115,6 +116,14 @@ def setupDesktop():
     keyboard.press_and_release('ctrl+shift+n')
     keyboard.write('brave-browser')
     keyboard.press_and_release('enter')
+
+#######################
+### AGENDA FUNCTION ###
+#######################
+
+def agenda():
+    '''Tell the user the list of 'todos' today from the agenda file.'''
+    os.system('gtts-cli -f agenda | play -t mp3 -')
 
 ####################
 ### MAIN PROGRAM ###
@@ -171,6 +180,11 @@ while listening:
                 setupDesktop()
             except:
                 misunderstanding()
+        elif rcvd_audio == 'siren agenda':
+            try:
+                agenda()
+            except:
+                misunderstanding()
         else:
             misunderstanding()
             listening = False
@@ -190,6 +204,9 @@ while listening:
 #
 # Look into a different audio recognition interpreter (google is used in this example; not bad,
 # but what else is there?)
+#
+# Interface with calendars
+# Have the program create an agenda file based on waht the user tells it to create
 
 #flatpak run org.strawberrymusicplayer.strawberry &
 #strawberry -p &
