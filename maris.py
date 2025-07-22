@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ##################################
-### TITLE: siren.py            ###
+### TITLE: maris.py            ###
 ### AUTHOR: Boardleash (Derek) ###
 ### DATE: Friday, July 18 2025 ###
 ##################################
@@ -146,42 +146,42 @@ while listening:
         # The below print call is a check to verify it got the right message.
         print("Text: "+listener.recognize_google(audio))
         # Conditional statements based on key phrases.
-        if rcvd_audio == 'siren play music':
+        if rcvd_audio == 'Maris play music':
             try:
                 playMusic() 
             except:
                 misunderstanding()
-        elif rcvd_audio == 'siren stop music':
+        elif rcvd_audio == 'Maris stop music':
             try:
                 stopMusic()
             except:
                 misunderstanding()
-        elif rcvd_audio == 'siren volume up':
+        elif rcvd_audio == 'Maris volume up':
             try:
                 volumeUp()
             except:
                 misunderstanding()
-        elif rcvd_audio == 'siren volume down':
+        elif rcvd_audio == 'Maris volume down':
             try:
                 volumeDown()
             except:
                 misunderstanding()
-        elif rcvd_audio == 'siren current weather':
+        elif rcvd_audio == 'Maris current weather':
             try:
                 currentWeather()
             except:
                 misunderstanding()
-        elif rcvd_audio == 'siren forecast':
+        elif rcvd_audio == 'Maris forecast':
             try:
                 forecastWeather()
             except:
                 misunderstanding()
-        elif rcvd_audio == 'siren set up':
+        elif rcvd_audio == 'Maris set up':
             try:
                 setupDesktop()
             except:
                 misunderstanding()
-        elif rcvd_audio == 'siren agenda':
+        elif rcvd_audio == 'Maris agenda':
             try:
                 agenda()
             except:
@@ -198,7 +198,7 @@ while listening:
 #
 # Find alternatives to gtts-cli, gtts and espeak
 #
-# Need to fine tune to only have the program recognize 'siren' and then other key words
+# Need to fine tune to only have the program recognize 'Maris' and then other key words
 # Need to silence the output info messages from the audio program on the terminal
 # Need to configure a service file to run this at startup (debating whether to always have it running)
 # i,e. always listening

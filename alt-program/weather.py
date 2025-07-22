@@ -17,26 +17,27 @@ import speech_recognition
 
 def Weather():
     '''Provide weather information to user.'''
-    if rcvd_audio == 'siren':
       with speech_recognition.Microphone() as source:
+        listener = speech_recognition.Recognizer()
         audio = listener.listen(source)
         cmd_audio = listener.recognize_google(audio)
+        print("FUNCTION TEXT "+cmd_audio)
         if cmd_audio == 'current weather':
           try:
             os.system('curl wttr.in/?format="%l+%t" > weather')
             os.system('gtts-cli -f weather')
             os.system('rm weather')
-          except:
-            misunderstanding()
+          except speech_recognition.UnknownValueError:
+            os.system('gtts-cli "I do not understand." | play -t mp3 -')
         elif cmd_audio == 'weather forecast':
           try:
             os.system('wget wttr.in/Mooresville.png')
             os.system('xdg-open ./Mooresville.png')
             os.system('gtts-cli "Your weather forecast for the week is on your desktop" | play -t mp3 -')
-          except:
-            misunderstanding()
+          except speech_recognition.UnknownValueError:
+            os.system('gtts-cli "I do not understand." | play -t mp3 -')
         else:
-          misunderstanding()
+            os.system('gtts-cli "I do not understand." | play -t mp3 -')
 
 # EOF
 

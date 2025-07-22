@@ -19,10 +19,11 @@ import speech_recognition
 
 def setupDesktop():
     '''Open typical applications that I use on the Desktop.'''
-    if rcvd_audio == 'siren':
       with speech_recognition.Microphone() as source:
+        listener = speech_recognition.Recognizer()
         audio = listener.listen(source)
         cmd_audio = listener.recognize_google(audio)
+        print("FUNCTION TEXT "+cmd_audio)
         if cmd_audio == 'set up':
           try:
             os.system('gtts-cli "Setting up your desktop..." | play -t mp3 -')
@@ -30,9 +31,8 @@ def setupDesktop():
             keyboard.write('brave-browser')
             keyboard.press_and_release('enter')
             os.system('gtts-cli "Desktop setup complete.')
-          except:
-            misunderstanding()
+          except speech_recognition.UnknownValueError:
+            os.system('gtts-cli "I do not understand." | play -t mp3 -')
         else:
-          misunderstanding()
-
+            os.system('gtts-cli "I do not understand." | play -t mp3 -')
 # EOF

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ##################################
-### TITLE: alt-siren.py        ###
+### TITLE: alt-maris.py        ###
 ### AUTHOR: Boardleash (Derek) ###
 ### DATE: Monday, July 21 2025 ###
 ##################################
@@ -30,7 +30,7 @@
 
 # Import needed libraries
 import os
-import pyttsx3
+#import pyttsx3
 import speech_recognition
 
 # Import locally created, but external functions
@@ -78,14 +78,6 @@ listener = speech_recognition.Recognizer()
 # listener.recognize_openai
 # listener.recognize_groq
 
-########################
-### MISUNDERSTANDING ###
-########################
-
-def Misunderstanding():
-  '''If the listener does not understand, let the user know with this function.'''
-  os.system('gtts-cli "I do not understand." | play -t mp3 -')
-
 ####################
 ### MAIN PROGRAM ###
 ####################
@@ -96,16 +88,15 @@ while listening:
     audio = listener.listen(source)
     rcvd_audio = listener.recognize_google(audio)
     print("TEXT: "+listener.recognize_google(audio))
-    if rcvd_audio == 'siren':
+    # Set a keyword to allow other functions to be invoked.
+    # If the incorrect keyword is given, throw exception and break loop.
+    if rcvd_audio == 'Maris':
         try:
             music.Music() 
         except speech_recognition.UnknownValueError:
-            Misunderstanding()
+            os.system('gtts-cli "I do not understand." | play -t mp3 -')
     else:
-        Misunderstanding()
+        os.system('gtts-cli "I do not understand." | play -t mp3 -')
         listening = False
 
 # EOF
-
-# Need to determine if I should hold the trigger word for the mic to \
-# listen to within each function script or in this main script.

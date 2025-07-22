@@ -17,10 +17,11 @@ import speech_recognition
 
 def Agenda():
     '''Create or read from an agenda file to let the user know their "todos".'''
-    if rcvd_audio == 'siren':
       with speech_recognition.Microphone() as source:
+        listener = speech.recognition.Recognizer()
         audio = listener.listen(source)
         cmd_audio = listener.recognize_google(audio)
+        print("FUNCTION TEXT: "+cmd_audio)
         if cmd_audio == 'create agenda':
           try:
             os.system('gtts-cli "Ok; what do you need to get done?" | play -t mp3 -')
@@ -30,15 +31,15 @@ def Agenda():
               file.write(todo_audio.get_raw_data())
               file.close
             os.system('gtts-cli "Agenda has been created." | play -t mp3 -')
-          except:
-            misunderstanding()
+          except speech_recognition.UnknownValueError:
+            os.sys('gtts-cli "I do not understand." | play -t mp3 -')
         elif cmd_audio == 'what is my agenda':
           try:
             os.system('gtts-cli -f agenda | play -t mp3 -')
-          except:
-            misunderstanding()
+          except speech_recognition.UnknownValueError:
+            os.sys('gtts-cli "I do not understand." | play -t mp3 -')
         else:
-          misunderstanding()
+            os.sys('gtts-cli "I do not understand." | play -t mp3 -')
 
 # EOF
 
