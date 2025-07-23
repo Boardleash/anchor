@@ -8,7 +8,6 @@
 # function.  This is a test; should be imported into alt-maris.py.
 
 # Import necessary libraries
-import os
 import speech_recognition
 import subprocess
 
