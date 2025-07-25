@@ -29,15 +29,16 @@
 #   --> "play" on a Linux host 
 
 # Import needed libraries
-import os
 #import pyttsx3
+import sounddevice
 import speech_recognition
+import subprocess
 
 # Import locally created, but external functions
-#import agenda
-#import desktop
+import agenda
+import desktop
 import music
-#import weather
+import weather
 
 # Initialize SpeechRecognition and PyTTSx3.
 listener = speech_recognition.Recognizer()
@@ -78,6 +79,18 @@ listener = speech_recognition.Recognizer()
 # listener.recognize_openai
 # listener.recognize_groq
 
+#################################
+### MISUNDERSTANDING FUNCTION ###
+#################################
+
+def Misunderstanding():
+    '''Tell user that the speech was not recognizable.'''
+    proc1 = subprocess.Popen(["gtts-cli", "I do not understand."],
+            stdout=subprocess.PIPE)
+    proc2 = subprocess.Popen(["play", "-t", "mp3", "-"],
+            stdin=proc1.stdout, stderr=subprocess.PIPE)
+    proc2.communicate()
+
 ####################
 ### MAIN PROGRAM ###
 ####################
@@ -92,11 +105,14 @@ while listening:
     # If the incorrect keyword is given, throw exception and break loop.
     if rcvd_audio == 'Maris':
         try:
-            music.Music() 
+            agenda.Agenda() or \
+            desktop.setupDesktop() or \
+            music.Music() or \
+            weather.Weather()
         except speech_recognition.UnknownValueError:
-            os.system('gtts-cli "I do not understand." | play -t mp3 -')
+            Misunderstanding()
     else:
-        os.system('gtts-cli "I do not understand." | play -t mp3 -')
+        Misunderstanding()
         listening = False
 
 # EOF
