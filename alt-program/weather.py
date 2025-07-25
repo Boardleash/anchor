@@ -43,6 +43,7 @@ def Weather():
             proc2 = subprocess.Popen(["play", "-t", "mp3", "-"],
                     stdin=proc1.stdout, stderr=subprocess.PIPE)
             proc2.communicate()
+            return quit()
           except speech_recognition.UnknownValueError:
             Misunderstanding()
         elif cmd_audio == 'weather forecast':
@@ -57,6 +58,7 @@ def Weather():
             proc2 = subprocess.Popen(["play", "-t", "mp3", "-"],
                     stdin=proc1.stdout, stderr=subprocess.PIPE)
             proc2.communicate()
+            return quit()
           except speech_recognition.UnknownValueError:
             Misunderstanding()
 
