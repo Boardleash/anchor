@@ -6,23 +6,27 @@
 #
 # This is a secondary Python script to hold the Desktop \
 # setup function.  This is a test; should be imported into \
-# alt-maris.py.
+# alt-anchor.py.
 
 # Import necessary libraries
+import pyttsx3
+import re
 import speech_recognition
 import subprocess
+import vosk
 
-#################################
-### MISUNDERSTANDING FUNCTION ###
-#################################
+# Initialize SpeechRecognition and PyTTSx3.
+listener = speech_recognition.Recognizer()
+speaker = pyttsx3.init()
 
-def Misunderstaning():
-    '''Tell user that speech was not recognizable.'''
-    proc1 = subprocess.Popen(["gtts-cli", "I do not understand."],
-            stdout=subprocess.PIPE)
-    proc2 = subprocess.Popen(["play", "-t", "mp3", "-"],
-            stdin=proc1.stdout, stderr=subprocess.PIPE)
-    proc2.communicate()
+########################
+### PYTTSX3 SETTINGS ###
+########################
+
+#speech_rate = speaker.setProperty('rate', 150)
+#speech_volume = speaker.setProperty('volume', 0.50)
+#speech_language = speaker.getProperty('voices')
+#speech_voice = speaker.setProperty('voice', speech_language[23].id)
 
 ##############################
 ### DESKTOP SETUP FUNCTION ###
@@ -31,20 +35,16 @@ def Misunderstaning():
 def setupDesktop():
     '''Open typical applications that I use on the Desktop.'''
     with speech_recognition.Microphone() as source:
-        listener = speech_recognition.Recognizer()
         audio = listener.listen(source)
-        cmd_audio = listener.recognize_google(audio)
-        print("FUNCTION TEXT: "+cmd_audio)
-        if cmd_audio == "desktop":
+        rcvd_audio = listener.recognize_vosk(audio)
+        if re.findall("desktop", rcvd_audio):
             try:
-                proc1 = subprocess.Popen(["gtts-cli", "Setting up your desktop..."],
-                        stdout=subprocess.PIPE)
-                proc2 = subprocess.Popen(["play", "-t", "mp3", "-"],
-                        stdin=proc1.stdout, stderr=subprocess.PIPE)
-                proc2.communicate()
+                speaker.say("Setting up your desktop...")
+                speaker.runAndWait()
                 subprocess.Popen(["ptyxis", "-s"])
                 subprocess.call(["brave-browser"])
                 return quit()
             except speech_recognition.UnknownValueError:
-                Misunderstanding()
+                speaker.say("I do not understand.")
+                speaker.runAndWait()
 # EOF
