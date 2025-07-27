@@ -5,23 +5,29 @@
 ###################
 #
 # This is a secondary Python scriipt to hold the agenda function.
-# This is a test; should be imported into alt-maris.py.
+# This is a test; should be imported into alt-anchor.py.
 
 # Import necessary libraries
+import json
+import pyttsx3
+import re
 import speech_recognition
 import subprocess
+import time
+import vosk
 
-#################################
-### MISUNDERSTANDING FUNCTION ###
-#################################
+# Initialize SppechRecognition adn PyTTSx3.
+listener = speech_recognition.Recognizer()
+speaker = pyttsx3.init()
 
-def Misunderstanding():
-    '''Tell user that the speech was not recognizable.'''
-    proc1 = subprocess.Popen(["gtts-cli", "I do not understand."],
-            stdout=subprocess.PIPE)
-    proc2 = subprocess.Popen(["play", "-t", "mp3", "-"],
-            stdin=proc1.stdout, stderr=subprocess.PIPE)
-    proc2.communicate()
+########################
+### PYTTSX3 SETTINGS ###
+########################
+
+#speech_rate = speaker.setProperty('rate', 125)
+#speech_volume = speaker.setProperty('volume', 0.75)
+#speech_language = speaker.getProperty('voices')
+#speech_voice = speaker.setProperty('voice', speech_language[23].id)
 
 #######################
 ### AGENDA FUNCTION ###
@@ -30,50 +36,49 @@ def Misunderstanding():
 def Agenda():
     '''Create or read from an agenda file to let the user know their "todos".'''
     with speech_recognition.Microphone() as source:
-        listener = speech_recognition.Recognizer()
         audio = listener.listen(source)
-        cmd_audio = listener.recognize_google(audio)
-        print("FUNCTION TEXT: "+cmd_audio)
-        if cmd_audio == 'create agenda':
+        rcvd_audio = listener.recognize_vosk(audio)
+        if re.findall("create agenda", rcvd_audio):
             try:
-                proc1 = subprocess.Popen(["gtts-cli", "Ok; what do you need to get done?"], stdout=subprocess.PIPE)
-                proc2 = subprocess.Popen(["play", "-t", "mp3", "-"], stdin=proc1.stdout, stderr=subprocess.PIPE)
-                proc2.communicate()
+                speaker.say("Ok; what do you need to get done?")
+                speaker.runAndWait()
+                time.sleep(3)
                 listening = True
                 while listening:
                     agenda_audio = listener.listen(source)
-                    todo_audio = listener.recognize_google(agenda_audio)
-                    with open("temp.tmp", "a") as file:
-                        file.write(todo_audio+"\n")
-                    if todo_audio == "all done":
-                        file.close()
-                        proc1 = subprocess.Popen(["gtts-cli", "Your agenda has been created."], stdout=subprocess.PIPE)
-                        proc2 = subprocess.Popen(["play", "-t", "mp3", "-"], stdin=proc1.stdout, stderr=subprocess.PIPE)
-                        proc2.communicate()
+                    task_audio = listener.recognize_vosk(agenda_audio)
+                    audio_to_parse = json.loads(task_audio)
+                    parsed_audio = audio_to_parse["text"]
+                    with open('temp.tmp', 'a') as temp_file:
+                        temp_file.write(parsed_audio+'\n')
+                    if re.findall("complete", task_audio):
+                        temp_file.close()
+                        speaker.say("Your agenda has been created.")
+                        speaker.runAndWait()
                         listening = False
-                        phrasetoremove = "all done"
-                        with open("temp.tmp", "r") as file_in, open("agenda", "w") as file_out:
-                            tasks = file_in.readlines()
-                            updated_tasks = [task.replace(phrasetoremove, "") for task in tasks]
-                            file_out.writelines(updated_tasks)
-                            file_in.close()
-                            file_out.close()
+                        removal = "complete"
+                        with open('temp.tmp', 'r') as temp_in, open('agenda', 'w') as agenda_out:
+                            tasks = temp_in.readlines()
+                            for task in tasks:
+                                scrubbed_tasks = task.replace(removal, "")
+                                agenda_out.write(scrubbed_tasks)
                             subprocess.Popen(["rm", "temp.tmp"])
+                            temp_in.close()
+                            agenda_out.close()
                 return quit()
             except speech_recognition.UnknownValueError:
-                Misunderstanding()
-        elif cmd_audio == 'what is my agenda':
+                speaker.say("I do not understand.")
+                speaker.runAndWait()
+        elif re.findall("what is my agenda", rcvd_audio):
             try:
-                proc1 = subprocess.Popen(["gtts-cli", "-f", "agenda"],
-                        stdout=subprocess.PIPE)
-                proc2 = subprocess.Popen(["play", "-t", "mp3", "-"],
-                        stdin=proc1.stdout, stderr=subprocess.PIPE)
-                proc2.communicate()
+                with open('agenda', 'r') as agenda:
+                    tasks = agenda.readlines()
+                    speaker.say(tasks)
+                    speaker.runAndWait()
+                    agenda.close()
                 return quit()
             except speech_recognition.UnknownValueError:
-                Misunderstanding()
+                speaker.say("I do not understand.")
+                speaker.runAndWait()
 
 # EOF
-
-# Want to add ability to add or delete items to the agenda file
-# That's on the 'todo'list
