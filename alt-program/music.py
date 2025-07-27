@@ -36,43 +36,42 @@ def Music():
     with speech_recognition.Microphone() as source:
         audio = listener.listen(source)
         rcvd_audio = listener.recognize_vosk(audio)
-        cmd_list = ["play music", "stop music", "volume up", "volume down", "next", "close music"]
-        if re.findall(cmd_list[0], rcvd_audio):
+        if re.findall("play music", rcvd_audio):
             try:
                 subprocess.Popen(["strawberry", "--quiet", "-p"])
                 return quit() 
             except speech_recognition.UnknownValueError:
                 speaker.say("I do not understand")
                 speaker.runAndWait()
-        elif re.findall(cmd_list[1], rcvd_audio):
+        elif re.findall("stop music", rcvd_audio):
             try:
                 subprocess.Popen(["strawberry", "--quiet", "-s"])
                 return quit() 
             except speech_recognition.UnknownValueError:
                 speaker.say("I do not understand")
                 speaker.runAndWait()
-        elif re.findall(cmd_list[2], rcvd_audio):
+        elif re.findall("volume up", rcvd_audio):
             try:
                 subprocess.Popen(["strawberry", "--quiet", "--volume-up"])
                 return quit() 
             except speech_recognition.UnknownValueError:
                 speaker.say("I do not understand")
                 speaker.runAndWait()
-        elif re.findall(cmd_list[3], rcvd_audio):
+        elif re.findall("volume down", rcvd_audio):
             try:
                 subprocess.Popen(["strawberry", "--quiet", "--volume-down"])
                 return quit() 
             except speech_recognition.UnknownValueError:
                 speaker.say("I do not understand")
                 speaker.runAndWait()
-        elif re.findall(cmd_list[4], rcvd_audio):
+        elif re.findall("next", rcvd_audio):
             try:
                 subprocess.Popen(["strawberry", "--quiet", "-f"])
                 return quit()
             except speech_recognition.UnknownValueError:
                 speaker.say("I do not understand.")
                 speaker.runAndWait()
-        elif re.findall(cmd_list[5], rcvd_audio):
+        elif re.findall("close music", rcvd_audio):
             try:
                 proc1 = subprocess.check_output(["pgrep", "--full", "strawberry --quiet -p"], encoding='utf-8').strip()
                 proc2 = subprocess.Popen(["kill", "-s", "SIGTERM", proc1])
