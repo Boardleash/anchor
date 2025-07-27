@@ -27,6 +27,7 @@
 #   --> pip install vosk
 
 # Import needed libraries
+import json
 import pyttsx3
 import re
 import sounddevice
@@ -36,9 +37,9 @@ from vosk import SetLogLevel
 
 # Import locally created, but external functions
 import agenda
-#import desktop
-#import music
-#import weather
+import desktop
+import music
+import weather
 
 # Initialize SpeechRecognition and PyTTSx3.
 listener = speech_recognition.Recognizer()
@@ -72,7 +73,7 @@ speech_voice = speaker.setProperty('voice', speech_language[23].id)
 ### MAIN PROGRAM ###
 ####################
 
-# Supress log output from VOSK
+# Suppress log output from VOSK
 SetLogLevel(-1)
 
 listening = True
@@ -81,19 +82,17 @@ while listening:
     audio = listener.listen(source)
     rcvd_audio = listener.recognize_vosk(audio)
     print(rcvd_audio)
-    # Set a keyword to allow other functions to be invoked.
-    # If the incorrect keyword is given, throw exception and break loop.
     if re.findall("anchor", rcvd_audio):
         try:
-            agenda.Agenda() #or \
-            #desktop.setupDesktop() #or \
-            #music.Music() #or \
-            #weather.Weather()
+            agenda.Agenda() or \
+            desktop.setupDesktop() or \
+            music.Music() or \
+            weather.Weather()
         except speech_recognition.UnknownValueError:
-           speaker.say("I do not understand.")
+           speaker.say("I don't understand.")
            speaker.runAndWait()
     else:
-        speaker.say("I apologize, but I do not understand.")
+        speaker.say("I apologize, but I don't understand.")
         speaker.runAndWait()
         listening = False
 
