@@ -4,6 +4,7 @@ notes
 *.png
 *.jpg
 *.jpeg
+temp.tem
 
 # Python Files
 __pycache__
