@@ -1,6 +1,9 @@
 # Temporary Files
 agenda
 notes
+*.png
+*.jpg
+*.jpeg
 
 # Python Files
 __pycache__
