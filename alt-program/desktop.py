@@ -9,10 +9,12 @@
 # alt-anchor.py.
 
 # Import necessary libraries
+from pathlib import Path
 import pyttsx3
 import re
 import speech_recognition
 import subprocess
+import sys
 import vosk
 
 # Initialize SpeechRecognition and PyTTSx3.
@@ -41,10 +43,15 @@ def setupDesktop():
             try:
                 speaker.say("Setting up your desktop...")
                 speaker.runAndWait()
-                subprocess.Popen(["ptyxis", "-s"])
-                subprocess.call(["brave-browser"])
+                if sys.platform == "linux":
+                    subprocess.Popen(["ptyxis", "-s"])
+                    subprocess.call(["brave-browser"])
+                elif sys.platform == "win32":
+                    subprocess.Popen(["powershell.exe", "-command", "code"])
+                    brave_path = Path('"C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe"')
+                    subprocess.Popen(["powershell.exe","start-process", brave_path])
                 return quit()
             except speech_recognition.UnknownValueError:
-                speaker.say("I do not understand.")
+                speaker.say("I don't understand.")
                 speaker.runAndWait()
 # EOF
