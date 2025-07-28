@@ -19,9 +19,9 @@ This program uses Python, which will need to be installed/available on your mach
 Python Libraries:
 
 > -pip install pyttsx3
-> -pip install sounddevice
-> -pip install SpeechRecognition
-> -pip install vosk
+ -pip install sounddevice
+ -pip install SpeechRecognition
+ -pip install vosk
 
 PyTTSx3 is a text-to-speech library for Python that is capable of running in an offline environment.  More information on this is located here:
 
