@@ -18,21 +18,25 @@ This program uses Python, which will need to be installed/available on your mach
 
 Python Libraries:
 
->	--> pip install pyttsx3
->	--> pip install sounddevice
->	--> pip install SpeechRecognition
->	--> pip install vosk
+> -pip install pyttsx3
+> -pip install sounddevice
+> -pip install SpeechRecognition
+> -pip install vosk
 
 PyTTSx3 is a text-to-speech library for Python that is capable of running in an offline environment.  More information on this is located here:
+
 https://pypi.org/project/pyttsx3/
 
 Sounddevice is a library in Python for 'portaudio' bindings.  The only reason this is being imported at the moment is because it prevents the ALSA messages on my Linux machines from being thrown.  As of yet, this does not appear to be an issue on Windows.  More information on sounddevice library is located here:
+
 https://pypi.org/project/sounddevice/
 
 SpeechRecognition is Python's speech-to-text-library.  There are several option that can be used with the SpeechRecognition library.  More information on this library is located here:
+
 https://pypi.org/project/SpeechRecognition/
 
 VOSK is a speech recognizer that I decided to implement and can work offline, provided you download the model.  I have downloaded the English model (small) and placed it in this working directory for use.  Guidance and addition information on VOSK is located here:
+
 https://alphacephei.com/vosk/
 
 ## How to Use 
