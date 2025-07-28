@@ -47,6 +47,12 @@ This program uses Python, which will need to be installed/available on your mach
 
 [VOSK](https://alphacephei.com/vosk/)
 
+## Caveats
+
+This program has been tested on my local machines and VMs.  I have annotated the Python versions and OS versions that were tested (though, the OS versions shouldn't really matter when using Python).  Strawberry is the music player that I use on Linux, and, therefore, is the one called in this program.  The intent is to call programs that are native to the host system's OS.  It is worth noting that I need to include command functions for those native programs.
+
+Windows has been a little bit more difficult to work with for this prgoram.  The subprocess library has been extremely smooth with Linux, however, with Windows, there have been some unique issues, even with the speech_recognition library (compared to Linux).  That said, some of the items on my list of "todos" include a lot of trying to correct this.  My "todos" are stored in this GitHub repo as a file named "tasks" for those that may be interested.
+
 ## How to Use 
 
 There is one primary script called **anchor.py** that can be downloaded and ran.  The current set of voice commands that can be provided are broken down in the following tree (phrases in Italics are what should be spoken when running the program):
@@ -62,7 +68,7 @@ There is one primary script called **anchor.py** that can be downloaded and ran.
 
 - **Music Voice Commands**:
     - *anchor music play*
-        - opens the native media player on Windows; opens Strawberry (if installed) on Linux
+        - opens the native media player on Windows; opens Strawberry (Linux)
     - *anchor music stop*
         - stops currently playing music on Strawberry media player (Linux)
     - *anchor volume up*
