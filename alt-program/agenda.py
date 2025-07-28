@@ -13,12 +13,9 @@ import pyttsx3
 import re
 import speech_recognition
 import subprocess
+import sys
 import time
 import vosk
-
-# Initialize SppechRecognition adn PyTTSx3.
-listener = speech_recognition.Recognizer()
-speaker = pyttsx3.init()
 
 ########################
 ### PYTTSX3 SETTINGS ###
@@ -35,26 +32,27 @@ speaker = pyttsx3.init()
 
 def Agenda():
     '''Create or read from an agenda file to let the user know their "todos".'''
+    listener = speech_recognition.Recognizer()
+    speaker = pyttsx3.init()
     with speech_recognition.Microphone() as source:
         audio = listener.listen(source)
         rcvd_audio = listener.recognize_vosk(audio)
         if re.findall("create agenda", rcvd_audio):
-            try:
-                speaker.say("Ok; what do you need to get done?")
-                speaker.runAndWait()
+            speaker.say("Ok; what do you need to get done?")
+            speaker.runAndWait()
+            if sys.platform == "linux":
                 time.sleep(3)
+            else:
+                pass
+            try:
                 listening = True
                 while listening:
                     agenda_audio = listener.listen(source)
                     task_audio = listener.recognize_vosk(agenda_audio)
                     audio_to_parse = json.loads(task_audio)
                     parsed_audio = audio_to_parse["text"]
-                    with open('temp.tmp', 'a') as temp_file:
-                        temp_file.write(parsed_audio+'\n')
                     if re.findall("complete", task_audio):
                         temp_file.close()
-                        speaker.say("Your agenda has been created.")
-                        speaker.runAndWait()
                         listening = False
                         removal = "complete"
                         with open('temp.tmp', 'r') as temp_in, open('agenda', 'w') as agenda_out:
@@ -62,12 +60,20 @@ def Agenda():
                             for task in tasks:
                                 scrubbed_tasks = task.replace(removal, "")
                                 agenda_out.write(scrubbed_tasks)
-                            subprocess.Popen(["rm", "temp.tmp"])
-                            temp_in.close()
-                            agenda_out.close()
+                        temp_in.close()
+                        agenda_out.close()
+                        if sys.platform == "linux":
+                            subprocess.Popen(["rm", "./temp.tmp"])
+                        elif sys.platform == "win32":
+                            subprocess.Popen(["powershell.exe", "rm", "./temp.tmp"])
+                        speaker.say("Your agenda has been created.")
+                        speaker.runAndWait()
+                    else:
+                        with open('temp.tmp', 'a') as temp_file:
+                            temp_file.write(parsed_audio+'\n')
                 return quit()
             except speech_recognition.UnknownValueError:
-                speaker.say("I do not understand.")
+                speaker.say("I don't understand.")
                 speaker.runAndWait()
         elif re.findall("what is my agenda", rcvd_audio):
             try:
@@ -78,7 +84,10 @@ def Agenda():
                     agenda.close()
                 return quit()
             except speech_recognition.UnknownValueError:
-                speaker.say("I do not understand.")
+                speaker.say("I don't understand.")
                 speaker.runAndWait()
+        else:
+            speaker.say("I don't understand.")
+            speaker.runAndWait()
 
 # EOF
