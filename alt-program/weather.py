@@ -8,12 +8,13 @@
 # function.  This is a test; should be imported into alt-anchor.py.
 
 # Import necessary libraries
+from PIL import Image
 import pyttsx3
 import re
 import requests
 import speech_recognition
 import subprocess
-import time
+import sys
 import vosk
 
 # Initialize SpeechRecognition and PyTTSx3.
@@ -45,22 +46,24 @@ def Weather():
             speaker.runAndWait()
             return quit()
           except speech_recognition.UnknownValueError:
-            speaker.say("I do not understand.")
+            speaker.say("I don't understand.")
             speaker.runAndWait()
         elif re.findall("weather forecast", rcvd_audio):
           try:
             weather_forecast = requests.get('https://wttr.in/Mooresville.png')
-            with open("./Mooresville.png", 'wb') as forecast:
+            with open("Mooresville.png", 'wb') as forecast:
                 forecast.write(weather_forecast.content)
                 forecast.close()
-            subprocess.Popen(["xdg-open", "Mooresville.png"])
-            speaker.say("Your weather forecast for the week is on your desktop.  The file will be removed in 30 seconds.")
+            if sys.platform == "linux":
+              subprocess.Popen(["xdg-open", "Mooresville.png"])
+            elif sys.platform == "win32":
+              forecast_image = Image.open('Mooresville.png')
+              forecast_image.show()
+            speaker.say("Your weather forecast for the week is on your desktop.")
             speaker.runAndWait()
-            time.sleep(30)
-            subprocess.Popen(["rm", "Mooresville.png"])
             return quit()
           except speech_recognition.UnknownValueError:
-            speaker.say("I do not understand.")
+            speaker.say("I don't understand.")
             speaker.runAndWait()
 
 # EOF
