@@ -12,6 +12,9 @@
 #
 # This is a speech program in Python that will take certain \
 # voice commands and run appropriate actions based on those commands.
+# Tested on:
+#   --> Fedora 42 GNOME Shell Python v3.13.5
+#   --> Windows 11 PowerShell v7.5.2 Python v3.12.10
 
 # Required installs:
 #   --> pip install pyttsx3

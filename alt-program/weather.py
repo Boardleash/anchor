@@ -4,8 +4,11 @@
 ### DESCRIPTION ###
 ###################
 #
-# This is a secondary Python scriipt to hold the Weather \
-# function.  This is a test; should be imported into alt-anchor.py.
+# This is a secondary Python scriipt to hold the Weather function.
+# Primarily used for testing out the function.
+# Tested on:
+#   --> Fedora 42 GNOME Shell Python v3.13.5
+#   --> Windows 11 PowerShell v7.5.2 Python v3.12.10
 
 # Import necessary libraries
 from PIL import Image
