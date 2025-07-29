@@ -1,10 +1,10 @@
-# Anchor
+# :anchor:Anchor:anchor:
 
-I wanted to work on a program that utilizes text-to-speech and speech-to-text features in Python.  This project is the outcome of that, although, there is still plenty to fine tune on it for sure.  The intent with this is to have your computer (laptop or desktop) take voice commands and perform certain functions based on those commands.
+I wanted to work on a program that utilizes text-to-speech and speech-to-text features in Python.  This project is the outcome of that.  The intent with this is to have your computer (laptop or desktop) take voice commands and perform certain functions based on those commands.  This is a work-in-progress and is still being ironed out, but has been fun nonetheless.  Additionally, I just created something that doesn't really make certain tasks any faster or easier (hahaha).  I'm just a masochist :feelsgood:.
 
-This is a work-in-progress and is still being ironed out, but is fun nonetheless.  I learned some interesting things when it comes to voice control through an OS.  Hopefully someone else can explore/have the same kind of experience that I had :smiley:.
+I learned some interesting things when it comes to voice control through an OS and Python.  Hopefully someone else can explore/have the same kind of experience that I had :smiley:.
 
-This program consists of four major functions:
+This program consists of four major functions at the moment:
 - **Agenda**
     - Create an agenda
     - Read the created agenda
@@ -22,30 +22,58 @@ This program consists of four major functions:
     - Get current weather conditions
     - Get a three day weather forecast presented via PNG file
 
+    ***NOTE***: weather requests in this script are using wttr.in.  wttr.in is a project of Igor Chubin and more information can be found here:
+
+    [WTTR.IN](https://github.com/chubin/wttr.in)
+
+
 ## Pre-Requisites
 
-This program uses Python, which will need to be installed/available on your machine.  In addition to that, there are several modules that need to be installed/available on your machine.  You can install necessary Python libraries with the below commands:
+This program uses Python, which will need to be installed/available on your machine.  In addition to that, there are several modules that need to be installed/available on your machine.  Kudos to the folks that have worked on these libraries!  You can install necessary Python libraries with the below commands:
 
->- pip install pyttsx3
->- pip install sounddevice
->- pip install SpeechRecognition
->- pip install vosk
+```
+pip install pillow
+pip install pyttsx3
+pip install sounddevice
+pip install SpeechRecognition
+pip install vosk
+```
+
+**Pillow** (PIL) is a python library that helps Python work with various image formats.  More information regarding PIL can be found here:
+
+>- [PIL](https://pypi.org/project/pillow/)
+
+>- [PIL Documentation](https://pillow.readthedocs.io/en/stable/)
+
+>- *Credit for Pillow goes to these folks here [Pillow Contributors](https://github.com/python-pillow/Pillow/graphs/contributors)*
 
 **PyTTSx3** is a text-to-speech library for Python that is capable of running in an offline environment.  More information on this is located here:
 
-[PyTTSx3](https://pypi.org/project/pyttsx3/)
+>- [PyTTSx3](https://pypi.org/project/pyttsx3/)
+
+>- [PyTTSx3 Documentation](https://pyttsx3.readthedocs.io/en/latest/)
+
+>- *Credit for PyTTSx3 goes to these folks here [PyTTSx3 Contributors](https://github.com/nateshmbhat/pyttsx3/graphs/contributors)*
 
 **Sounddevice** is a library in Python for 'portaudio' bindings.  The only reason this is being imported at the moment is because it prevents the ALSA messages on my Linux machines from being thrown.  As of yet, this does not appear to be an issue on Windows.  More information on sounddevice library is located here:
 
-[SoundDevice](https://pypi.org/project/sounddevice/)
+>- [SoundDevice](https://pypi.org/project/sounddevice/)
+
+>- [SoundDevice Documentation](https://app.readthedocs.org/projects/python-sounddevice/downloads/pdf/latest/)
+
+>- *Credit for Sounddevice goes to these folks here [SoundDevice Contributors](https://github.com/spatialaudio/python-sounddevice/graphs/contributors)*
 
 **SpeechRecognition** is Python's speech-to-text-library.  There are several option that can be used with the SpeechRecognition library.  More information on this library is located here:
 
-[SpeechRecognition](https://pypi.org/project/SpeechRecognition/)
+>- [SpeechRecognition](https://pypi.org/project/SpeechRecognition/)
+
+>- *Credit for SpeechRecognition goes to these folks here [SpeechRecognition Contributors](https://github.com/Uberi/speech_recognition/graphs/contributors)*
 
 **VOSK** is a speech recognizer that I decided to implement and can work offline, provided you download the model.  I have downloaded the English model (small) and placed it in this working directory for use.  Guidance and addition information on VOSK is located here:
 
-[VOSK](https://alphacephei.com/vosk/)
+>- [VOSK](https://alphacephei.com/vosk/)
+
+>- *Credit for VOSK goes to these folks here [VOSK Contributors](https://github.com/alphacep/vosk-api/graphs/contributors)*
 
 ## Caveats
 
