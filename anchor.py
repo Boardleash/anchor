@@ -33,6 +33,7 @@ import subprocess
 import sys
 import time
 import vosk
+from PIL import Image
 from vosk import SetLogLevel
 
 # Initialize SpeechRecognition and PyTTSx3.
