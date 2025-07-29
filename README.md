@@ -79,7 +79,7 @@ pip install vosk
 
 This program has been tested on my local machines and VMs.  I have annotated the Python versions and OS versions that were tested (though, the OS versions shouldn't really matter when using Python).  Strawberry is the music player that I use on Linux, and, therefore, is the one called in this program.  The intent is to call programs that are native to the host system's OS.  It is worth noting that I need to include command functions for those native programs.
 
-Windows has been a little bit more difficult to work with for this prgoram.  The subprocess library has been extremely smooth with Linux, however, with Windows, there have been some unique issues, even with the speech_recognition library (compared to Linux).  That said, some of the items on my list of "todos" include a lot of trying to correct this.  My "todos" are stored in this GitHub repo as a file named "tasks" for those that may be interested.
+Windows has been a little bit more difficult to work with for this prgoram.  The subprocess library has been extremely smooth with Linux, however, with Windows, there have been some unique issues, even with the speech_recognition library (compared to Linux).  That said, some of the items on my list of "todos" include a lot of trying to correct this.  Additionally, I worked with an assumption that Brave is installed on both OSs and Strawberry is installed on Linux.
 
 ## How to Use 
 
