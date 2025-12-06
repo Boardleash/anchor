@@ -53,14 +53,14 @@ def Weather():
             speaker.runAndWait()
         elif re.findall("weather forecast", rcvd_audio):
           try:
-            weather_forecast = requests.get('https://wttr.in/Mooresville.png')
-            with open("Mooresville.png", 'wb') as forecast:
+            weather_forecast = requests.get('https://wttr.in/Moyock.png')
+            with open("Moyock.png", 'wb') as forecast:
                 forecast.write(weather_forecast.content)
                 forecast.close()
             if sys.platform == "linux":
-              subprocess.Popen(["xdg-open", "Mooresville.png"])
+              subprocess.Popen(["xdg-open", "Moyock.png"])
             elif sys.platform == "win32":
-              forecast_image = Image.open('Mooresville.png')
+              forecast_image = Image.open('Moyock.png')
               forecast_image.show()
             speaker.say("Your weather forecast for the week is on your desktop.")
             speaker.runAndWait()
